@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>webservice-example</artifactId>
+    <groupId>com.intrasoft</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+
+
+    <packaging>war</packaging>
+    <name>webservice-example</name>
+
+    <properties>
+
+        <java.version>8</java.version>
+        <version.compiler.plugin>3.8.0</version.compiler.plugin>
+        <version.war.plugin>2.5</version.war.plugin>
+
+        <version.jee.api>7.0</version.jee.api>
+        <javax.cdi-api.version>2.0</javax.cdi-api.version>
+        <javax.jaxrs.version>2.1</javax.jaxrs.version>
+
+        <!--Logging -->
+        <version.slf4j>1.7.21</version.slf4j>
+        <version.log4j>1.2.17</version.log4j>
+
+    </properties>
+
+    <dependencies>
+        <!-- Java EE libraries -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+            <version>${version.jee.api}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+            <version>${javax.cdi-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <scope>provided</scope>
+            <version>${javax.jaxrs.version}</version>
+        </dependency>
+
+        <!--Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${version.log4j}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.war.plugin}</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

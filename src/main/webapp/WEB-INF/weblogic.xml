@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-web-app">
+
+    <!-- Character set settings -->
+    <charset-params>
+        <input-charset>
+            <resource-path>/*</resource-path>
+            <java-charset-name>utf-8</java-charset-name>
+        </input-charset>
+    </charset-params>
+
+    <container-descriptor>
+        <prefer-application-packages>
+            <package-name>org.slf4j.*</package-name>
+            <package-name>log4j.*</package-name>
+        </prefer-application-packages>
+        <show-archived-real-path-enabled>true
+        </show-archived-real-path-enabled>
+    </container-descriptor>
+
+    <container-descriptor>
+        <show-archived-real-path-enabled>true</show-archived-real-path-enabled>
+    </container-descriptor>
+
+    <jsp-descriptor>
+        <keepgenerated>true</keepgenerated>
+        <debug>true</debug>
+    </jsp-descriptor>
+
+    <context-root>webservice-example</context-root>
+
+    <library-ref>
+        <library-name>SSPCommonLibsWar</library-name>
+    </library-ref>
+
+</weblogic-web-app>
