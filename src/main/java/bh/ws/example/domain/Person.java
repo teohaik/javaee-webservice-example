@@ -1,14 +1,24 @@
 package bh.ws.example.domain;
 
+import java.sql.Timestamp;
+
 public class Person {
 
+    private Long partyId;
     private String name;
-    private String id;
+    private String lastName;
+    private String citizenshipCode;
+    private Timestamp birthdate;
+    private String fatherName;
+    private String gender;
 
-    public Person(String name, String id) {
+
+    public Person(String name, String citizenshipCode) {
         this.name = name;
-        this.id = id;
+        this.citizenshipCode = citizenshipCode;
     }
+
+    public Person(){}
 
     public String getName() {
         return name;
@@ -18,19 +28,59 @@ public class Person {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public String getCitizenshipCode() {
+        return citizenshipCode;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCitizenshipCode(String citizenshipCode) {
+        this.citizenshipCode = citizenshipCode;
+    }
+
+    public Long getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Long partyId) {
+        this.partyId = partyId;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Timestamp getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Timestamp birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     @Override
     public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +
-                ", id='" + id + '\'' +
+                ", citizenshipCode='" + citizenshipCode + '\'' +
                 '}';
     }
 }
