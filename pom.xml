@@ -27,7 +27,7 @@
         <version.log4j>1.2.17</version.log4j>
 
         <!-- Hibernate-->
-        <hibernate.core.version>5.2.11</hibernate.core.version>
+        <hibernate.core.version>5.2.11.Final</hibernate.core.version>
     </properties>
 
     <dependencies>

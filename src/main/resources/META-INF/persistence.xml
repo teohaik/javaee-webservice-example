@@ -7,10 +7,10 @@
 
     <!--jpa.common persistence Specific for Oracle Weblogic Application Server -->
 
-    <persistence-unit name="processPU" transaction-type="JTA">
+    <persistence-unit name="trainingPU" transaction-type="JTA">
 
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<jta-data-source>jdbc/SSA</jta-data-source>
+		<jta-data-source>jdbc/SSPLOCAL</jta-data-source>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
