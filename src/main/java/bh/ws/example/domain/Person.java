@@ -1,10 +1,11 @@
 package bh.ws.example.domain;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Person {
 
-    private Long partyId;
+    private BigDecimal partyId;
     private String name;
     private String lastName;
     private String citizenshipCode;
@@ -36,11 +37,11 @@ public class Person {
         this.citizenshipCode = citizenshipCode;
     }
 
-    public Long getPartyId() {
+    public BigDecimal getPartyId() {
         return partyId;
     }
 
-    public void setPartyId(Long partyId) {
+    public void setPartyId(BigDecimal partyId) {
         this.partyId = partyId;
     }
 

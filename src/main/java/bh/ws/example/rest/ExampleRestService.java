@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class ExampleRestService implements Serializable {
             aPerson.setName((String)person[4]);
             aPerson.setGender((String)person[5]);
             aPerson.setLastName((String)person[6]);
-            aPerson.setPartyId((Long)person[9]);
+            aPerson.setPartyId((BigDecimal)person[9]);
 
             personList.add(aPerson);
         }
