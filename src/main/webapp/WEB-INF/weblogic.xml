@@ -35,4 +35,8 @@
         <library-name>SSPCommonLibsWar</library-name>
     </library-ref>
 
+    <fast-swap>
+        <enabled>true</enabled>
+    </fast-swap>
+
 </weblogic-web-app>
