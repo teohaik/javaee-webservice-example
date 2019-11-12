@@ -33,7 +33,9 @@ public class PersonService implements Serializable {
 		List<SimplePerson> simplePersonList = new ArrayList<>();
 		simplePersonList.add(p1);
 		simplePersonList.add(p2);
-		return Response.ok(simplePersonList).build();
+        GenericEntity<List<SimplePerson>> personGE =
+                new GenericEntity<List<SimplePerson>>(simplePersonList){};
+        return Response.ok(personGE).build();
 	}
 
 	@GET
@@ -49,14 +51,15 @@ public class PersonService implements Serializable {
     @Path("fromDB")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonFromDB(){
-        Query query = em.createNativeQuery("select * from BR_PERSON");
+        Query query = em.createNativeQuery("select * from SB_REST_PERSON");
         List<Object[]> resultList = query.getResultList();
         for(int i=0; i< resultList.size(); i++){
             Object[] person = resultList.get(i);
-            System.out.println("SimplePerson "+(i+1)+ " : ");
+            System.out.println("SB_REST_PERSON "+(i+1)+ " : ");
             for(int p=0; p<person.length; p++){
-                System.out.println("[ "+ person[p] + " ]");
+                System.out.print("[ "+ person[p] + " ] , ");
             }
+            System.out.println("------------------");
         }
         return Response.ok("ok").build();
     }
@@ -67,7 +70,7 @@ public class PersonService implements Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonDTOFromDB(){
         List<PersonDTO> personList = new ArrayList<>();
-        Query query = em.createNativeQuery("select * from BR_PERSON");
+        Query query = em.createNativeQuery("select * from SB_REST_PERSON");
         List<Object[]> resultList = query.getResultList();
         for(int i=0; i< resultList.size(); i++){
             Object[] person = resultList.get(i);
@@ -79,15 +82,15 @@ public class PersonService implements Serializable {
     }
 
     @GET
-    @Path("withId/{givenId}")
+    @Path("withId/{uuid}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPersonWithQuery(@PathParam("givenId") Integer givenId){
+    public Response getPersonWithQuery(@PathParam("uuid") String uuidString){
         List<PersonDTO> personList = new ArrayList<>();
         Query query = em.createNativeQuery("select p.VERSION, p.UUID, p.DISPLAY_NAME, p.ADDRESS " +
                 "from SB_REST_PERSON p  " +
-                "where p.PARTY_ID = ?");
+                "where p.UUID = ?");
 
-        query.setParameter(1, givenId);
+        query.setParameter(1, uuidString);
         List<Object[]> resultList = query.getResultList();
 
         for(int i=0; i< resultList.size(); i++){
@@ -101,24 +104,24 @@ public class PersonService implements Serializable {
     }
 
     /**
-     *  WARNING The following query requires a
-     * @param idType
+     *
+     * @param uuidString
      * @param version
      * @return
      */
     @GET
     @Path("party/byVersionAndIdType")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPartiesByVersionAndIdType(@QueryParam("idType") String idType,
+    public Response getPartiesByVersionAndIdType(@QueryParam("uuid") String uuidString,
                                                  @QueryParam("version") Integer version
                                                  ){
         List<PersonDTO> personList = new ArrayList<>();
         List<Object[]> resultList =
                 em.createNativeQuery("select p.VERSION, p.UUID, p.DISPLAY_NAME, p.ADDRESS" +
                         " from SB_REST_PERSON p " +
-                "where p.PRIMARY_IDENTIFICATION_TYPE = ?" +
+                "where p.UUID = ?" +
                 "and p.VERSION = ?")
-                .setParameter(1, idType)
+                .setParameter(1, uuidString)
                 .setParameter(2, version).getResultList();
 
         for(int i=0; i< resultList.size(); i++){
@@ -134,7 +137,7 @@ public class PersonService implements Serializable {
 
     private PersonDTO createPersonFromDbResult(Object[] person) {
         PersonDTO aPerson = new PersonDTO();
-        aPerson.setVersion((BigDecimal)person[0] );
+        aPerson.setVersion((BigDecimal) person[0] );
         aPerson.setUuid((String)person[1]);
         aPerson.setDisplayName((String)person[2]);
         aPerson.setAddress((String)person[3]);
