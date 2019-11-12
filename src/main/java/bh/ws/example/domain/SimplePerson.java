@@ -3,7 +3,7 @@ package bh.ws.example.domain;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-public class Person {
+public class SimplePerson {
 
     private BigDecimal partyId;
     private String name;
@@ -14,12 +14,12 @@ public class Person {
     private String gender;
 
 
-    public Person(String name, String citizenshipCode) {
+    public SimplePerson(String name, String citizenshipCode) {
         this.name = name;
         this.citizenshipCode = citizenshipCode;
     }
 
-    public Person(){}
+    public SimplePerson(){}
 
     public String getName() {
         return name;
@@ -79,7 +79,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "SimplePerson{" +
                 "name='" + name + '\'' +
                 ", citizenshipCode='" + citizenshipCode + '\'' +
                 '}';

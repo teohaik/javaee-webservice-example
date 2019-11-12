@@ -4,13 +4,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 @XmlRootElement
-public class PartyDTO {
+public class PersonDTO {
 
-    private String displayName;
     private BigDecimal version;
+    private String uuid;
+    private String displayName;
     private String address;
 
-    public PartyDTO() {
+    public PersonDTO() {
     }
 
     public String getDisplayName() {
@@ -35,6 +36,14 @@ public class PartyDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }
 

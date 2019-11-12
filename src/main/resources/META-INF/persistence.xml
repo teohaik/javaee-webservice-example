@@ -13,9 +13,9 @@
 
 
 		<!--
-		change jdbc/SSPLOCAL with your own data source
+		change jdbc/SSA with your own data source
 		-->
-		<jta-data-source>jdbc/SSPLOCAL</jta-data-source>
+		<jta-data-source>jdbc/SSA</jta-data-source>
 
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>

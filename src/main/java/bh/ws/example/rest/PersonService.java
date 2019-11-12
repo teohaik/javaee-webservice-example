@@ -1,7 +1,7 @@
 package bh.ws.example.rest;
 
-import bh.ws.example.domain.PartyDTO;
-import bh.ws.example.domain.Person;
+import bh.ws.example.domain.PersonDTO;
+import bh.ws.example.domain.SimplePerson;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +28,21 @@ public class PersonService implements Serializable {
 	@Path("all")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getPersons() {
-		Person p1 = new Person("Teo","123");
-		Person p2 = new Person("Elias", "456");
-		List<Person> personList = new ArrayList<>();
-		personList.add(p1);
-		personList.add(p2);
-		return Response.ok(personList).build();
+		SimplePerson p1 = new SimplePerson("Teo","123");
+		SimplePerson p2 = new SimplePerson("Elias", "456");
+		List<SimplePerson> simplePersonList = new ArrayList<>();
+		simplePersonList.add(p1);
+		simplePersonList.add(p2);
+		return Response.ok(simplePersonList).build();
 	}
 
 	@GET
 	@Path("withUsername")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getPersonsWithUsername(@QueryParam("username") @NotNull String username) {
-		Person p1 = new Person("Teo","123");
+		SimplePerson p1 = new SimplePerson("Teo","123");
 		return Response.ok(p1).build();
 	}
-
 
 
     @GET
@@ -55,7 +53,7 @@ public class PersonService implements Serializable {
         List<Object[]> resultList = query.getResultList();
         for(int i=0; i< resultList.size(); i++){
             Object[] person = resultList.get(i);
-            System.out.println("Person "+(i+1)+ " : ");
+            System.out.println("SimplePerson "+(i+1)+ " : ");
             for(int p=0; p<person.length; p++){
                 System.out.println("[ "+ person[p] + " ]");
             }
@@ -68,17 +66,15 @@ public class PersonService implements Serializable {
     @Path("personDTO")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonDTOFromDB(){
-        List<Person> personList = new ArrayList<>();
+        List<PersonDTO> personList = new ArrayList<>();
         Query query = em.createNativeQuery("select * from BR_PERSON");
         List<Object[]> resultList = query.getResultList();
         for(int i=0; i< resultList.size(); i++){
             Object[] person = resultList.get(i);
-            Person aPerson = createPersonFromDbResult(person);
-
-            personList.add(aPerson);
+            personList.add(createPersonFromDbResult(person));
         }
-        GenericEntity<List<Person>> personGE =
-                new GenericEntity<List<Person>>(personList){};
+        GenericEntity<List<PersonDTO>> personGE =
+                new GenericEntity<List<PersonDTO>>(personList){};
         return Response.ok(personGE).build();
     }
 
@@ -86,23 +82,23 @@ public class PersonService implements Serializable {
     @Path("withId/{givenId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonWithQuery(@PathParam("givenId") Integer givenId){
-        List<Person> personList = new ArrayList<>();
-        Query query = em.createNativeQuery(
-                "select * from BR_PERSON p where p.PARTY_ID = ?");
+        List<PersonDTO> personList = new ArrayList<>();
+        Query query = em.createNativeQuery("select p.VERSION, p.UUID, p.DISPLAY_NAME, p.ADDRESS " +
+                "from SB_REST_PERSON p  " +
+                "where p.PARTY_ID = ?");
 
         query.setParameter(1, givenId);
         List<Object[]> resultList = query.getResultList();
 
         for(int i=0; i< resultList.size(); i++){
             Object[] thePerson = resultList.get(i);
-            Person personFromDbResult = createPersonFromDbResult(thePerson);
+            PersonDTO personFromDbResult = createPersonFromDbResult(thePerson);
             personList.add(personFromDbResult);
         }
-        GenericEntity<List<Person>> personGE =
-                new GenericEntity<List<Person>>(personList){};
+        GenericEntity<List<PersonDTO>> personGE =
+                new GenericEntity<List<PersonDTO>>(personList){};
         return Response.ok(personGE).build();
     }
-
 
     /**
      *  WARNING The following query requires a
@@ -116,10 +112,10 @@ public class PersonService implements Serializable {
     public Response getPartiesByVersionAndIdType(@QueryParam("idType") String idType,
                                                  @QueryParam("version") Integer version
                                                  ){
-        List<PartyDTO> partyList = new ArrayList<>();
+        List<PersonDTO> personList = new ArrayList<>();
         List<Object[]> resultList =
                 em.createNativeQuery("select p.VERSION, p.UUID, p.DISPLAY_NAME, p.ADDRESS" +
-                        " from BR_PARTY p " +
+                        " from SB_REST_PERSON p " +
                 "where p.PRIMARY_IDENTIFICATION_TYPE = ?" +
                 "and p.VERSION = ?")
                 .setParameter(1, idType)
@@ -127,36 +123,21 @@ public class PersonService implements Serializable {
 
         for(int i=0; i< resultList.size(); i++){
             Object[] partyDB = resultList.get(i);
-
-            PartyDTO party = new PartyDTO();
-            party.setVersion((BigDecimal)partyDB[0]);
-            party.setDisplayName((String)partyDB[1]);
-            party.setAddress((String)partyDB[2]);
-
-            partyList.add(party);
+            personList.add(createPersonFromDbResult(partyDB));
         }
 
-        GenericEntity<List<PartyDTO>> partyGE =
-                new GenericEntity<List<PartyDTO>>(partyList){};
+        GenericEntity<List<PersonDTO>> partyGE =
+                new GenericEntity<List<PersonDTO>>(personList){};
         return Response.ok(partyGE).build();
     }
 
 
-
-
-
-
-
-    private Person createPersonFromDbResult(Object[] person) {
-        Person aPerson = new Person();
-        aPerson.setCitizenshipCode((String)person[0]);
-        aPerson.setBirthdate((Timestamp)person[1]);
-        //WE DO NOT WANT DEATH DATE  = person[2]
-        aPerson.setFatherName((String)person[3]);
-        aPerson.setName((String)person[4]);
-        aPerson.setGender((String)person[5]);
-        aPerson.setLastName((String)person[6]);
-        aPerson.setPartyId((BigDecimal)person[9]);
+    private PersonDTO createPersonFromDbResult(Object[] person) {
+        PersonDTO aPerson = new PersonDTO();
+        aPerson.setVersion((BigDecimal)person[0] );
+        aPerson.setUuid((String)person[1]);
+        aPerson.setDisplayName((String)person[2]);
+        aPerson.setAddress((String)person[3]);
         return aPerson;
     }
 
