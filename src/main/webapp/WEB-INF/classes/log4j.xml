@@ -33,7 +33,7 @@
 
     <appender name="SW_ROLLING_FILE"
               class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="ssp.bh.webservices.example.log" />
+        <param name="File" value="webservice.example.log" />
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="1000KB" />
         <param name="MaxBackupIndex" value="10" />
@@ -50,16 +50,6 @@
 	<logger name="org.hibernate">
 		<level value="DEBUG"/>
 	</logger>
-
-    <logger name="com.intrasoft.ssp" additivity="false">
-        <level value="DEBUG" />
-        <appender-ref ref="SW_ROLLING_FILE" />
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="com.intrasoft.zeno">
-        <level value="INFO"/>
-    </logger>
 
     <!-- ** -->
 
