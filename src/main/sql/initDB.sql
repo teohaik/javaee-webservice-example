@@ -1,0 +1,14 @@
+
+-- Run the following sql script to initialize your DB with sample Table and data
+
+create table SB_REST_PERSON
+(
+    UUID         VARCHAR2(255),
+    VERSION      NUMBER(10),
+    DISPLAY_NAME VARCHAR2(255 char),
+    ADDRESS      VARCHAR2(255 char)
+)
+/
+
+INSERT INTO SB_REST_PERSON (UUID, VERSION, DISPLAY_NAME, ADDRESS) VALUES ('897EDB02676B48E1B1A9112DE5CBEA45', 0, 'Teo Haik', '12 Road str.');
+INSERT INTO SB_REST_PERSON (UUID, VERSION, DISPLAY_NAME, ADDRESS) VALUES ('6FB43001CBF143748142095C0260F29F', 0, 'John Doe', '145 Wall Str.');

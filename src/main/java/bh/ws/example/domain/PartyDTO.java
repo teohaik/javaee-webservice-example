@@ -8,7 +8,7 @@ public class PartyDTO {
 
     private String displayName;
     private BigDecimal version;
-    private String primaryIdentificationType;
+    private String address;
 
     public PartyDTO() {
     }
@@ -29,12 +29,12 @@ public class PartyDTO {
         this.version = version;
     }
 
-    public String getPrimaryIdentificationType() {
-        return primaryIdentificationType;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPrimaryIdentificationType(String primaryIdentificationType) {
-        this.primaryIdentificationType = primaryIdentificationType;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
 

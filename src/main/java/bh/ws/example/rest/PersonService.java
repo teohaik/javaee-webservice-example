@@ -104,6 +104,12 @@ public class PersonService implements Serializable {
     }
 
 
+    /**
+     *  WARNING The following query requires a
+     * @param idType
+     * @param version
+     * @return
+     */
     @GET
     @Path("party/byVersionAndIdType")
     @Produces({MediaType.APPLICATION_JSON})
@@ -112,7 +118,7 @@ public class PersonService implements Serializable {
                                                  ){
         List<PartyDTO> partyList = new ArrayList<>();
         List<Object[]> resultList =
-                em.createNativeQuery("select p.VERSION, p.DISPLAY_NAME, p.PRIMARY_IDENTIFICATION_TYPE" +
+                em.createNativeQuery("select p.VERSION, p.UUID, p.DISPLAY_NAME, p.ADDRESS" +
                         " from BR_PARTY p " +
                 "where p.PRIMARY_IDENTIFICATION_TYPE = ?" +
                 "and p.VERSION = ?")
@@ -125,7 +131,7 @@ public class PersonService implements Serializable {
             PartyDTO party = new PartyDTO();
             party.setVersion((BigDecimal)partyDB[0]);
             party.setDisplayName((String)partyDB[1]);
-            party.setPrimaryIdentificationType((String)partyDB[2]);
+            party.setAddress((String)partyDB[2]);
 
             partyList.add(party);
         }

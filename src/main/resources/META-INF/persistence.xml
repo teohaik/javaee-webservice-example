@@ -10,7 +10,14 @@
     <persistence-unit name="trainingPU" transaction-type="JTA">
 
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+
+		<!--
+		change jdbc/SSPLOCAL with your own data source
+		-->
 		<jta-data-source>jdbc/SSPLOCAL</jta-data-source>
+
+
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
